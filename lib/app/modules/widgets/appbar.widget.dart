@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-PreferredSizeWidget CustomAppBar(String appName) {
+PreferredSizeWidget customAppBar(String appName) {
   _searchButton() =>
       IconButton(onPressed: () {}, icon: const Icon(Icons.search));
 

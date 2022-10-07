@@ -1,16 +1,27 @@
-import 'package:get/get.dart';
-
 class Coin {
-  String imageUrl;
   String name;
-  String code;
-  int price;
-  RxBool favorite;
+  String symbol;
+  String price;
+  String id;
 
   Coin(
-      {required this.imageUrl,
-      required this.name,
-      required this.code,
+      {required this.name,
+      required this.symbol,
       required this.price,
-      required this.favorite});
+      required this.id});
+
+  Map<dynamic, dynamic> toJson() {
+    final Map<dynamic, dynamic> data = <dynamic, dynamic>{};
+    data['id'] = id;
+    data['name'] = name;
+    data['symbol'] = symbol;
+    data['quote']['USD']['price'] = price;
+    return data;
+  }
+
+  Coin.fromJson(Map<dynamic, dynamic> json)
+      : id = json['id'].toString(),
+        name = json['name'].toString(),
+        symbol = json['symbol'].toString(),
+        price = json['quote']['USD']['price'].toString();
 }
