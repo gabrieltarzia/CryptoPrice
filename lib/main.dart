@@ -2,6 +2,7 @@ import 'package:cryptoprice/app/bindings/initial.bindings.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'app/modules/home/home.view.dart';
 
 void main() {

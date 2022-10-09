@@ -1,6 +1,7 @@
 import 'package:cryptoprice/app/helper/const.helper.dart';
 import 'package:cryptoprice/app/modules/coin/coin.model.dart';
-import 'package:get/get_connect/connect.dart';
+import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class CoinRepository extends GetConnect {
   Future<List<Coin>> getCoinList() async {
@@ -20,5 +21,14 @@ class CoinRepository extends GetConnect {
     }
 
     return coinList;
+  }
+
+  Future<RxList<String>> getFavoriteList() async {
+    final dataBase = await SharedPreferences.getInstance();
+    final List<String>? items =
+        dataBase.getStringList(ConstHelper.favoriteListKey);
+    final RxList<String> obsList = items as RxList<String>;
+
+    return obsList;
   }
 }

@@ -12,36 +12,76 @@ class HomePage extends GetView<HomeController> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: customAppBar(ConstHelper.appName),
-        body: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: FutureBuilder(
-                future: controller.coincontroller.coinList(),
-                builder: (context, snapshot) {
-                  switch (snapshot.connectionState) {
-                    case ConnectionState.waiting:
-                      return const Center(child: CircularProgressIndicator());
-
-                    default:
-                      if (snapshot.hasError) {
-                        return Center(
-                          child: Text(snapshot.error.toString()),
-                        );
-                      }
-                      if (snapshot.hasData) {
-                        final List<Coin> coin = snapshot.data as List<Coin>;
-
-                        return ListView.builder(
-                            itemCount: coin.length,
-                            shrinkWrap: true,
-                            itemBuilder: (context, index) {
-                              return CryptoCard(coin: coin[index]);
-                            });
-                      }
-                  }
-                  return const Center();
-                })),
-        bottomNavigationBar: BottomBar());
+    return Obx(() {
+      return Scaffold(
+          appBar: customAppBar(ConstHelper.appName),
+          body:
+              controller.bottomBarTabIndex < 1 ? _coinList() : _favoriteList(),
+          bottomNavigationBar: BottomBar());
+    });
   }
+
+  _coinList() => Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: FutureBuilder(
+          future: controller.coincontroller.coinList(),
+          builder: (context, snapshot) {
+            switch (snapshot.connectionState) {
+              case ConnectionState.waiting:
+                return const Center(child: CircularProgressIndicator());
+
+              default:
+                if (snapshot.hasError) {
+                  return Center(
+                    child: Text(snapshot.error.toString()),
+                  );
+                }
+                if (snapshot.hasData) {
+                  final List<Coin> coin = snapshot.data as List<Coin>;
+
+                  return ListView.builder(
+                      itemCount: coin.length,
+                      shrinkWrap: true,
+                      itemBuilder: (context, index) {
+                        return coin[index].symbol.toLowerCase().contains(
+                                controller.searchBar.text.toLowerCase())
+                            ? CryptoCard(coin: coin[index])
+                            : const Center();
+                      });
+                }
+            }
+            return const Center();
+          }));
+
+  _favoriteList() => Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: FutureBuilder(
+          future: controller.coincontroller.coinList(),
+          builder: (context, snapshot) {
+            switch (snapshot.connectionState) {
+              case ConnectionState.waiting:
+                return const Center(child: CircularProgressIndicator());
+
+              default:
+                if (snapshot.hasError) {
+                  return Center(
+                    child: Text(snapshot.error.toString()),
+                  );
+                }
+                if (snapshot.hasData) {
+                  final List<Coin> coin = snapshot.data as List<Coin>;
+
+                  return ListView.builder(
+                      itemCount: coin.length,
+                      shrinkWrap: true,
+                      itemBuilder: (context, index) {
+                        return controller.coincontroller.favoriteList
+                                .contains(coin[index].symbol)
+                            ? CryptoCard(coin: coin[index])
+                            : const Center();
+                      });
+                }
+            }
+            return const Center();
+          }));
 }

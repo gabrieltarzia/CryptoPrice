@@ -10,8 +10,11 @@ class BottomBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return Obx(
       () => BottomNavigationBar(
+        type: BottomNavigationBarType.shifting,
+        enableFeedback: true,
         currentIndex: _homeController.bottomBarTabIndex.value,
         backgroundColor: Theme.of(context).backgroundColor,
+        selectedIconTheme: Theme.of(context).iconTheme,
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(icon: Icon(Icons.home), label: ''),
           BottomNavigationBarItem(icon: Icon(Icons.star), label: ''),
