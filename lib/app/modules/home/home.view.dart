@@ -15,11 +15,37 @@ class HomePage extends GetView<HomeController> {
     return Obx(() {
       return Scaffold(
           appBar: customAppBar(ConstHelper.appName),
-          body:
-              controller.bottomBarTabIndex < 1 ? _coinList() : _favoriteList(),
+          body: Column(
+            children: [
+              _coinMarketCapBanner(),
+              Expanded(
+                flex: 20,
+                child: controller.bottomBarTabIndex < 1
+                    ? _coinList()
+                    : _favoriteList(),
+              )
+            ],
+          ),
           bottomNavigationBar: BottomBar());
     });
   }
+
+  _coinMarketCapBanner() => Expanded(
+      flex: 1,
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              const Text(' Data provided by CoinMarketCap '),
+              Image.network(
+                'https://coinmarketcap.com/public/media/img/logo-square.png?_=2666e93',
+                color: Colors.grey,
+              ),
+            ],
+          ),
+        
+      ));
 
   _coinList() => Padding(
       padding: const EdgeInsets.all(8.0),

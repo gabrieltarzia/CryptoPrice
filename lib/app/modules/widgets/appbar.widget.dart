@@ -22,14 +22,19 @@ PreferredSizeWidget customAppBar(String appName) {
   return _controller.bottomBarTabIndex.value < 1
       ? AppBar(
           actions: [_searchButton()],
-          title: Padding(
-            padding: const EdgeInsets.all(12.0),
-            child: TextFormField(
-              controller: _controller.searchBar,
-              textAlign: TextAlign.center,
-              decoration: const InputDecoration(
-                  border: UnderlineInputBorder(), hintText: 'Search Crypto'),
-            ),
+          title: Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(12.0),
+                child: TextFormField(
+                  controller: _controller.searchBar,
+                  textAlign: TextAlign.center,
+                  decoration: const InputDecoration(
+                      border: UnderlineInputBorder(),
+                      hintText: 'Search Crypto'),
+                ),
+              ),
+            ],
           ),
         )
       : AppBar(
