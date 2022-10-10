@@ -10,4 +10,10 @@ class HomeController extends GetxController {
   void changeBottomBarIndex(int index) {
     bottomBarTabIndex.value = index;
   }
+
+  @override
+  void onInit() async {
+    super.onInit();
+    coincontroller.getStoredFavorites();
+  }
 }

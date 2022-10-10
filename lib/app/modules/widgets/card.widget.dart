@@ -4,10 +4,12 @@ import 'package:cryptoprice/app/modules/coin/coin.model.dart';
 import 'package:cryptoprice/app/modules/home/home.controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class CryptoCard extends StatelessWidget {
   CryptoCard({Key? key, required this.coin}) : super(key: key);
   HomeController homeController = Get.put(HomeController());
+
   Coin coin;
 
   @override
@@ -27,6 +29,7 @@ class CryptoCard extends StatelessWidget {
           trailing: Text('\$ ${coin.price.toString()}'),
           onLongPress: () {
             _addToFavorite(coin);
+            _saveList();
           },
         ));
   }
@@ -35,4 +38,10 @@ class CryptoCard extends StatelessWidget {
       homeController.coincontroller.favoriteList.contains(coin.symbol)
           ? homeController.coincontroller.favoriteList.remove(coin.symbol)
           : homeController.coincontroller.favoriteList.add(coin.symbol);
+
+  void _saveList() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setStringList(ConstHelper.favoriteListKey,
+        homeController.coincontroller.favoriteList);
+  }
 }
